@@ -1,0 +1,129 @@
+/* =============================================================================
+   M8.5 — Tailwind 4 theme mapping (PRD §19)
+   -----------------------------------------------------------------------------
+   All raw values live in src/styles/tokens.css. This file only maps those
+   tokens onto Tailwind's semantic namespaces so components can use ordinary
+   utilities (bg-surface, text-text-body, rounded-card, shadow-raised, …) instead
+   of arbitrary values.
+
+   @theme inline keeps the utilities pointed straight at the token variables,
+   so the whole look stays swappable from the token file alone.
+   ============================================================================= */
+
+@import './styles/tokens.css';
+@import 'tailwindcss';
+
+@theme inline {
+  /* --- Colour ------------------------------------------------------------- */
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-border: var(--primary-border);
+
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+  --color-accent-soft: var(--accent-soft);
+
+  --color-page: var(--page);
+  --color-page-alt: var(--page-alt);
+  --color-page-app: var(--page-app);
+  --color-surface: var(--surface);
+  --color-paper: var(--paper);
+  --color-on-dark-surface: var(--on-dark-surface);
+  --color-on-dark-field: var(--on-dark-field);
+  --color-on-dark-field-hover: var(--on-dark-field-hover);
+  --color-scrim: var(--scrim);
+  --color-tint: var(--tint);
+  --color-dark: var(--dark);
+  --color-dark-navy: var(--dark-navy);
+
+  --color-text-heading: var(--text-heading);
+  --color-text-body: var(--text-body);
+  --color-text-muted: var(--text-muted);
+  --color-text-disabled: var(--text-disabled);
+
+  --color-border: var(--border);
+  --color-border-soft: var(--border-soft);
+  --color-border-cool: var(--border-cool);
+
+  /* Status colours are used at full strength on a dot, an icon or a 1px rule.
+     There are deliberately no `-soft` status utilities (PRD §19.9.9). */
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+
+  /* --- Fonts -------------------------------------------------------------- */
+  --font-heading: var(--font-heading-stack);
+  --font-body: var(--font-body-stack);
+  --font-sans: var(--font-body-stack);
+  --font-mono: var(--font-mono-stack);
+
+  /* --- Radius (4 default · 8 containers · 12 ceiling · 999 tabs only) ------ */
+  --radius-button: var(--radius-4);
+  --radius-nav: var(--radius-8);
+  --radius-card: var(--radius-8);
+  --radius-modal: var(--radius-12);
+  /* Token name must differ from the theme variable or the alias self-references
+     and voids the token entirely (GOTCHAS #25). */
+  --radius-tab: var(--radius-pill);
+
+  /* --- Elevation (floating elements only — never static cards) ------------- */
+  --shadow-app-header: var(--elevation-hairline);
+  --shadow-raised: var(--elevation-raised);
+  --shadow-modal: var(--elevation-modal);
+
+  /* --- Type sizes exposed as utilities ------------------------------------ */
+  --text-btn-lg: var(--type-btn-lg-size);
+  --text-btn-lg--line-height: var(--type-btn-lg-leading);
+  --text-btn: var(--type-btn-size);
+  --text-btn--line-height: var(--type-btn-leading);
+  --text-btn-xs: var(--type-btn-xs-size);
+  --text-btn-xs--line-height: var(--type-btn-xs-leading);
+  --text-meta: var(--type-meta-size);
+  --text-meta--line-height: var(--type-meta-leading);
+  --tracking-eyebrow: var(--type-eyebrow-tracking);
+
+  /* --- Spacing / layout --------------------------------------------------- */
+  --spacing-header: var(--layout-header);
+  --spacing-sidebar: var(--layout-sidebar);
+  --spacing-preview: var(--layout-preview);
+  --spacing-btn-lg-y: var(--btn-lg-y);
+  --spacing-btn-lg-x: var(--btn-lg-x);
+  --spacing-btn-lg-oy: var(--btn-lg-oy);
+  --spacing-btn-lg-ox: var(--btn-lg-ox);
+  --spacing-btn-y: var(--btn-y);
+  --spacing-btn-x: var(--btn-x);
+  --spacing-btn-oy: var(--btn-oy);
+  --spacing-btn-ox: var(--btn-ox);
+  --spacing-btn-xs-y: var(--btn-xs-y);
+  --spacing-btn-xs-x: var(--btn-xs-x);
+  --spacing-btn-xs-oy: var(--btn-xs-oy);
+  --spacing-btn-xs-ox: var(--btn-xs-ox);
+
+  /* --- Containers --------------------------------------------------------- */
+  --container-content-sm: var(--layout-container-sm);
+  --container-content-md: var(--layout-container-md);
+  --container-content-lg: var(--layout-container-lg);
+  --container-content-xl: var(--layout-container-xl);
+
+  /* --- Motion ------------------------------------------------------------- */
+  --animate-fade-in: m85-fade-in var(--motion-slow) var(--ease-default) both;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body-stack);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
+  background-color: var(--page-app);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

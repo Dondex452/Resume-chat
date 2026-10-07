@@ -1,0 +1,23 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+database.sqlite
+# M11 — legacy JSON preserved before the node:sqlite migration (server/migrate.ts)
+database.json.pre-sqlite.bak
+database.sqlite.migrate-tmp
+bun.lock
+
+# Provider config — holds the user's API key (see PRD §5.2, §8)
+settings.json
+settings.local.json
+
+# memory-guard mechanical edit trail (local forensic log, see .opencode/plugin/memory-guard.ts)
+memory/.edit-trail.log
+
+# Playwright MCP scratch output (page snapshots + console logs, regenerated every run)
+.playwright-mcp/

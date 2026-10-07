@@ -1,0 +1,522 @@
+/* =============================================================================
+   M8.5 — Frontend design system tokens (PRD §19)
+   -----------------------------------------------------------------------------
+   This is the ONLY file in the application where raw design values (colour
+   hexes, radii, shadows, type metrics) may appear. Every component consumes
+   these as CSS custom properties, either directly (var(--token)) or through the
+   semantic Tailwind utilities mapped from them in src/index.css.
+
+   Grouped by role: colour · typography · radius · elevation · spacing · motion.
+   ============================================================================= */
+
+:root {
+  /* ---------------------------------------------------------------------------
+     COLOUR — brand / primary (PRD §19.3, re-tuned to blue)
+     --------------------------------------------------------------------------- */
+  --primary: #2563eb;
+  --primary-hover: #5a8cff;
+  --primary-active: #1b4fd8;
+  --primary-soft: #eef3ff;
+  --primary-border: #bfd3ff;
+
+  /* COLOUR — accent (indigo / violet). `accent-soft` is an interactive
+     hover/active wash only — a static surface never wears it (PRD §19.9.9). */
+  --accent: #5f4dc7;
+  --accent-light: #8c7cdb;
+  --accent-soft: #eef1fb;
+
+  /* COLOUR — gradients (background ramps and the 2px accent rule only; never
+     clipped over text — PRD §19.9.1) */
+  --gradient-ramp-start: #7c5cff;
+  --gradient-ramp-mid: #4f63d2;
+  --gradient-ramp-end: #2563eb;
+  --gradient-page: linear-gradient(180deg, #fdfeff 11%, #eef4ff 60%, #dbe7ff 91%);
+  --gradient-dark-band: linear-gradient(95deg, #0b0f19 61%, #2563eb 99%);
+  --gradient-ramp: linear-gradient(
+    90deg,
+    var(--gradient-ramp-start),
+    var(--gradient-ramp-mid),
+    var(--gradient-ramp-end)
+  );
+
+  /* COLOUR — surfaces. Large light surfaces carry a faint blue tint; nothing
+     large is a flat #ffffff (PRD §19.9 / DESIGN.md neutrals). The resume paper
+     is the one true-white surface — it stands in for printed paper and is the
+     artefact captured for PDF export. */
+  --page: #fdfeff;
+  --page-alt: #fafbfd;
+  --page-app: #f5f7fc;
+  --surface: #fdfeff;
+  --paper: #ffffff;
+  /* Neutral tint — a blue cast, never lavender (PRD §19.9.9 / DESIGN.md). */
+  --tint: #f2f5fb;
+  --dark: #2d3639;
+  --dark-navy: #0b0f19;
+
+  /* Opaque on-dark surfaces. Panels and controls sitting on the navy band are
+     fully opaque — translucency is banned (PRD §19.9.4). */
+  --on-dark-surface: #1a2130;
+  --on-dark-field: #232c3d;
+  --on-dark-field-hover: #2b3547;
+
+  /* Overlay scrim behind modals and drawers — the only intentional translucency
+     in the app, and it is a scrim, never a panel. */
+  --scrim: rgba(11, 15, 25, 0.55);
+
+  /* COLOUR — text */
+  --text-heading: #2d3639;
+  --text-body: #384347;
+  --text-muted: #60696c;
+  --text-disabled: #9baab0;
+
+  /* COLOUR — borders */
+  --border: #e2e7e9;
+  --border-soft: #f0f0f0;
+  --border-cool: #e3e9f5;
+
+  /* COLOUR — status. Saturated and honest, not pastel. A status colour is
+     used at full strength on a dot, an icon or a 1px rule; body text stays
+     neutral. There are deliberately no status `-soft` washes — a pale tinted
+     panel with matching pale text is the banned "AI shade" (PRD §19.9.9). */
+  --success: #0e7a54;
+  --warning: #b26a00;
+  --danger: #c81e3a;
+  --info: #1f6fb2;
+
+  /* COLOUR — decorative blur art (ambient light, never structural).
+     Three tones only: a blue, an indigo-blue and one warm counterpoint. No
+     pink, no lavender (PRD §19.9.10). */
+  --blob-blue: #b2d7f1;
+  --blob-indigo: #b9c6f2;
+  --blob-warm: #ffe0b9;
+
+  /* ---------------------------------------------------------------------------
+     TYPOGRAPHY (PRD §19.2)
+     --------------------------------------------------------------------------- */
+  --font-heading-stack: Rubik, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-body-stack: Inter, Helvetica, Arial, "Segoe UI", sans-serif;
+  --font-mono-stack: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Type scale — desktop metrics; mobile overrides live in the media query below */
+  --type-display-size: 58px;
+  --type-display-leading: 76px;
+  --type-h2-size: 48px;
+  --type-h2-leading: 56px;
+  --type-h3-size: 38px;
+  --type-h3-leading: 46px;
+  --type-h4-size: 32px;
+  --type-h4-leading: 38px;
+  --type-h5-size: 26px;
+  --type-h5-leading: 31px;
+  --type-h6-size: 22px;
+  --type-h6-leading: 26px;
+
+  --type-body-size: 16px;
+  --type-body-leading: 1.6;
+  --type-label-size: 16px;
+  --type-label-leading: 22px;
+  --type-meta-size: 12px;
+  --type-meta-leading: 20px;
+  --type-eyebrow-size: 12px;
+  --type-eyebrow-leading: 20px;
+  --type-eyebrow-tracking: 0.5px;
+
+  /* Button type */
+  --type-btn-lg-size: 18px;
+  --type-btn-lg-leading: 24px;
+  --type-btn-size: 16px;
+  --type-btn-leading: 22px;
+  --type-btn-xs-size: 14px;
+  --type-btn-xs-leading: 20px;
+
+  /* ---------------------------------------------------------------------------
+     RADIUS (PRD §19.4 corrected — DESIGN.md)
+     Corner radius is a signal, not a texture. 4px is the default; 8px is for
+     larger containers; 12px is the ceiling for containers. 999px is reserved
+     for tab buttons and avatars ONLY. There is no 16/20/24px step.
+     --------------------------------------------------------------------------- */
+  --radius-4: 4px;
+  --radius-6: 6px;
+  --radius-8: 8px;
+  --radius-12: 12px;
+  --radius-pill: 999px;
+
+  /* ---------------------------------------------------------------------------
+     ELEVATION — soft, low-spread shadows for elements that genuinely float
+     (PRD §19.4 corrected). Static cards, rows and panels use a hairline border
+     or a tint instead; they carry no shadow at all.
+     --------------------------------------------------------------------------- */
+  --elevation-hairline: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --elevation-raised: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --elevation-modal: 0 4px 30px rgba(0, 0, 0, 0.25);
+
+  /* ---------------------------------------------------------------------------
+     SPACING SCALE — 4px base (PRD §19.5)
+     --------------------------------------------------------------------------- */
+  --space-0: 0;
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-28: 28px;
+  --space-32: 32px;
+  --space-36: 36px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-56: 56px;
+  --space-64: 64px;
+  --space-72: 72px;
+  --space-80: 80px;
+  --space-96: 96px;
+  --space-112: 112px;
+  --space-128: 128px;
+
+  /* Layout */
+  --layout-header: 72px;
+  --layout-sidebar: 288px;
+  --layout-preview: 540px;
+  --layout-container-sm: 736px;
+  --layout-container-md: 956px;
+  --layout-container-lg: 1184px;
+  --layout-container-xl: 1328px;
+  --layout-gutter: 24px;
+  --layout-section: 64px;
+
+  /* Button metrics (PRD §19.2) — outline variants subtract 2px */
+  --btn-lg-y: 13px;
+  --btn-lg-x: 16px;
+  --btn-lg-oy: 11px;
+  --btn-lg-ox: 14px;
+  --btn-y: 9px;
+  --btn-x: 14px;
+  --btn-oy: 7px;
+  --btn-ox: 12px;
+  --btn-xs-y: 5px;
+  --btn-xs-x: 12px;
+  --btn-xs-oy: 3px;
+  --btn-xs-ox: 10px;
+
+  /* ---------------------------------------------------------------------------
+     MOTION (PRD §19.1)
+     --------------------------------------------------------------------------- */
+  --motion-fast: 200ms;
+  --motion-base: 300ms;
+  --motion-slow: 350ms;
+  --motion-blob: 26s;
+  /* Home-page carousel (DESIGN.md "Carousel spec"): the reference's exact
+     track timing, plus the card CTA reveal. Both are house tokens so the
+     component carries no raw durations. */
+  --motion-carousel: 600ms;
+  --motion-cta: 400ms;
+  --ease-default: ease-in-out;
+}
+
+/* Mobile type scale (PRD §19.2) */
+@media (max-width: 767px) {
+  :root {
+    --type-display-size: 38px;
+    --type-display-leading: 46px;
+    --type-h2-size: 28px;
+    --type-h2-leading: 34px;
+    --type-h3-size: 24px;
+    --type-h3-leading: 29px;
+    --type-h4-size: 22px;
+    --type-h4-leading: 24px;
+    --type-h5-size: 20px;
+    --type-h5-leading: 22px;
+    --type-h6-size: 18px;
+    --type-h6-leading: 22px;
+  }
+}
+
+/* =============================================================================
+   TYPE UTILITIES — Rubik 500 headings, Inter body (PRD §19.2)
+   ============================================================================= */
+
+.type-display,
+.type-h1 {
+  font-family: var(--font-heading-stack);
+  font-weight: 500;
+  font-size: var(--type-display-size);
+  line-height: var(--type-display-leading);
+  letter-spacing: -0.01em;
+  color: var(--text-heading);
+}
+
+.type-h2 {
+  font-family: var(--font-heading-stack);
+  font-weight: 500;
+  font-size: var(--type-h2-size);
+  line-height: var(--type-h2-leading);
+  letter-spacing: -0.01em;
+  color: var(--text-heading);
+}
+
+.type-h3 {
+  font-family: var(--font-heading-stack);
+  font-weight: 500;
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-leading);
+  letter-spacing: -0.005em;
+  color: var(--text-heading);
+}
+
+.type-h4 {
+  font-family: var(--font-heading-stack);
+  font-weight: 400;
+  font-size: var(--type-h4-size);
+  line-height: var(--type-h4-leading);
+  color: var(--text-heading);
+}
+
+.type-h5 {
+  font-family: var(--font-heading-stack);
+  font-weight: 400;
+  font-size: var(--type-h5-size);
+  line-height: var(--type-h5-leading);
+  color: var(--text-heading);
+}
+
+.type-h6 {
+  font-family: var(--font-heading-stack);
+  font-weight: 400;
+  font-size: var(--type-h6-size);
+  line-height: var(--type-h6-leading);
+  color: var(--text-heading);
+}
+
+.type-body {
+  font-family: var(--font-body-stack);
+  font-weight: 400;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
+  color: var(--text-body);
+}
+
+.type-label {
+  font-family: var(--font-heading-stack);
+  font-weight: 500;
+  font-size: var(--type-label-size);
+  line-height: var(--type-label-leading);
+  letter-spacing: normal;
+}
+
+.type-meta {
+  font-family: var(--font-body-stack);
+  font-weight: 400;
+  font-size: var(--type-meta-size);
+  line-height: var(--type-meta-leading);
+  color: var(--text-muted);
+}
+
+/* Eyebrow — uppercase overline. Uses the muted neutral at full opacity rather
+   than a 50% heading tint: a half-opacity heading fails 4.5:1 on white. */
+.type-eyebrow {
+  font-family: var(--font-body-stack);
+  font-weight: 500;
+  font-size: var(--type-eyebrow-size);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+/* On dark-navy surfaces (PRD §19.3 dark band). The `.type-*` rules above are
+   *unlayered* token CSS, and Tailwind's colour utilities live in the `utilities`
+   cascade layer — unlayered wins, so `text-white` cannot recolour them
+   (GOTCHAS #28). These single-class helpers are defined after the type rules,
+   so applying one wins at equal specificity. */
+.on-dark-heading {
+  color: var(--page);
+}
+
+.on-dark-body {
+  color: var(--page);
+  opacity: 0.78;
+}
+
+.on-dark-eyebrow {
+  color: var(--page);
+  opacity: 0.72;
+}
+
+/* ---------------------------------------------------------------------------
+   GRADIENT ACCENTS — small surfaces only, never body copy (PRD §19.4/D)
+   --------------------------------------------------------------------------- */
+.gradient-ramp {
+  background-image: var(--gradient-ramp);
+}
+
+/* IconTile hover — the tile lifts onto the ramp and its glyph goes solid white. */
+.icon-tile-interactive {
+  transition: background-image var(--motion-base) var(--ease-default),
+    color var(--motion-base) var(--ease-default), transform var(--motion-base) var(--ease-default);
+}
+
+.icon-tile-interactive:hover {
+  background-image: var(--gradient-ramp);
+  color: var(--page);
+  transform: translateY(-1px);
+}
+
+/* =============================================================================
+   SURFACES
+   ============================================================================= */
+
+.page-ramp {
+  background-image: var(--gradient-page);
+}
+
+.dark-band {
+  background-color: var(--dark-navy);
+  background-image: var(--gradient-dark-band);
+}
+
+/* The A4 paper sits on the app background with its own deeper shadow. It is the
+   one true-white surface in the app (PRD §19.9 neutrals). */
+.paper-sheet {
+  background-color: var(--paper);
+  box-shadow: var(--elevation-raised);
+  /* A long unbroken string — a hyphenated surname, a long email or company name —
+     can be wider than a 240px sidebar. Without this the word overflows its column,
+     and the part that spills past the coloured panel is white text on the white main
+     column: it reads as "cut off" rather than overflowing. Measured on `creative`
+     with a 37-character name: the name box was 189px wide with a 222px scroll width,
+     i.e. 33px of the word outside the panel. `break-word` only takes effect when a
+     word genuinely does not fit, so ordinary wrapping is unchanged. */
+  overflow-wrap: break-word;
+}
+
+/* =============================================================================
+   BLOB BACKDROP — ambient pastel light (PRD §19.1, §19.3)
+   ============================================================================= */
+
+/* Fixed and full-viewport so the ambient art sits under the opaque panes as
+   page background only — never behind a frosted panel (PRD §19.9.4). */
+.blob-backdrop {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Section-scoped variant. The studio's panes float over a fixed viewport layer,
+   but the home page opens on the drenched hero, and ambient colour wash must
+   never sit over the gradient — the two fight and turn to mud (PRD §19.3 "The
+   drench", DESIGN.md). In this variant the layer flows with the light sections
+   below the hero instead, and every seed is anchored at a non-negative `top`
+   so no blob can reach back into the hero. */
+.blob-backdrop--section {
+  position: absolute;
+}
+
+/* The 80px blur does the shaping; the radius stays inside the 12px ceiling so
+   the blob layer never carries a pill shape (PRD §19.4). */
+.blob {
+  position: absolute;
+  border-radius: var(--radius-12);
+  filter: blur(80px);
+  opacity: 0.4;
+  will-change: transform;
+  animation: m85-blob-drift var(--motion-blob) var(--ease-default) infinite alternate;
+}
+
+/* Three ambient tones only (PRD §19.9.10). */
+.blob--blue {
+  background: var(--blob-blue);
+}
+.blob--indigo {
+  background: var(--blob-indigo);
+}
+.blob--warm {
+  background: var(--blob-warm);
+}
+
+@keyframes m85-blob-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(2%, -3%, 0) scale(1.08);
+  }
+}
+
+@keyframes m85-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* =============================================================================
+   ACCESSIBILITY (PRD §19.7)
+   ============================================================================= */
+
+:where(a, button, input, select, textarea, summary, [role='tab'], [role='button'], [tabindex]):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Body text on white passes AA; muted is for non-essential meta only. */
+body {
+  color: var(--text-body);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .blob {
+    animation: none !important;
+  }
+}
+
+/* =============================================================================
+   QUIET SCROLLBARS — keep the high-key surfaces calm
+   ============================================================================= */
+
+.scroll-quiet {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.scroll-quiet::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scroll-quiet::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-quiet::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 999px;
+}
+
+.scroll-quiet::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-disabled);
+}
+
+/* Hide scrollbar but keep programmatic/gesture scrolling (pill tab strips) */
+.scroll-hidden {
+  scrollbar-width: none;
+}
+
+.scroll-hidden::-webkit-scrollbar {
+  display: none;
+}
